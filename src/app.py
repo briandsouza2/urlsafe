@@ -22,11 +22,23 @@ app = Flask(__name__)
 
 global url_set
 app.logger.debug('Initializes set')
-url_set = set(line.strip() for line in open('/tmp/teststrings.txt'))
+url_array = [line.strip() for line in open('teststrings.txt')]
+url_set = set(url_array)
 
 @app.route("/urlinfo/1/<hostname_and_port>/<original_path_and_query_string>")
-def hello_world(hostname_and_port, original_path_and_query_string):
-    # look up the URL
+def array_lookup(hostname_and_port, original_path_and_query_string):
+    # Naive: use a for loop to determine if the URL is safe
+    #for url in url_array:
+    #    if url == original_path_and_query_string:
+    #        return f"True"
+
+    if original_path_and_query_string in url_array:
+        return f"True"
+    return f"False"
+
+@app.route("/urlinfo/2/<hostname_and_port>/<original_path_and_query_string>")
+def set_lookup(hostname_and_port, original_path_and_query_string):
+    # Use a set to determine if the URL is safe    
     if original_path_and_query_string in url_set:
         return "True"
     return f"False"
