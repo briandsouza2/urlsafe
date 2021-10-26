@@ -2,10 +2,11 @@ from flask import Flask
 from flask import request, jsonify
 import os, fnmatch
 import zipfile
+from flask_cors import CORS
 # from markupsafe import escape
 
 app = Flask(__name__)
-
+CORS(app)
 # Assumptions:
 # The complete list of URLs can be loaded into memory
 #
@@ -30,13 +31,15 @@ app = Flask(__name__)
 
 global url_dict_array
 global url_dict_set
-app.logger.debug('Initializes set')
+
 url_dict_set = {}
 url_dict_array = {}
 
 def load_data():
+    app.logger.debug("Loading data")
+
     # go through the data folder and load all data
-    for root, dirs, files in os.walk('../data'):
+    for root, dirs, files in os.walk('./data'):
         dirs.sort()
         for dirname in dirs:
             for _, _, files in os.walk(os.path.join(root, dirname)):
@@ -55,7 +58,6 @@ def array_lookup(hostname_and_port, original_path_and_query_string):
     #for url in url_array:
     #    if url == original_path_and_query_string:
     #        return f"True"
-    app.logger.debug('A value for debugging')
     if hostname_and_port in url_dict_array.keys():
         if original_path_and_query_string in url_dict_array[hostname_and_port]:        
             return jsonify({'Blocked': True})
@@ -71,8 +73,18 @@ def set_lookup(hostname_and_port, original_path_and_query_string):
     return jsonify({'Blocked': False})
 
 def main():
-    load_data()
+    app.logger.debug("In app::main")
+    #load_data()
     app.run(host="0.0.0.0")
 
 if __name__=="__main__":
     main()
+
+import logging
+if __name__=="urlsafe.app":
+    app.logger.debug("In urlsafe.app")
+
+    #gunicorn_error_logger = logging.getLogger('gunicorn.error')
+    #app.logger.handlers.extend(gunicorn_error_logger.handlers)
+    app.logger.setLevel(logging.DEBUG)
+    load_data()

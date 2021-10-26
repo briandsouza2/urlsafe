@@ -14,13 +14,14 @@ def get_random_string(length):
 
 rand_str = get_random_string(2048)
 
-lines = open('../src/teststrings.txt').read().splitlines()
+lines = open('../data/hostname2_80/urls.txt').read().splitlines()
 # read a random line from the test file
 
 def test_array():
     start_time = time.time()
-    #myline =random.choice(lines)
-    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/1/hostname2_80/{rand_str}").read()
+    myline =random.choice(lines)
+    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/1/hostname2_80/{myline}").read()
+    print(contents)
     end_time = time.time()
     print("Array: took this long to run: {}".format(end_time-start_time))
     
