@@ -3,6 +3,8 @@ from flask import request, jsonify
 import os, fnmatch
 import zipfile
 from flask_cors import CORS
+import logging
+
 # from markupsafe import escape
 
 app = Flask(__name__)
@@ -75,16 +77,19 @@ def set_lookup(hostname_and_port, original_path_and_query_string):
 def main():
     app.logger.debug("In app::main")
     #load_data()
+    #app.run(threaded=False, processes=1)
     app.run(host="0.0.0.0")
 
 if __name__=="__main__":
     main()
 
-import logging
 if __name__=="urlsafe.app":
     app.logger.debug("In urlsafe.app")
 
     #gunicorn_error_logger = logging.getLogger('gunicorn.error')
     #app.logger.handlers.extend(gunicorn_error_logger.handlers)
     app.logger.setLevel(logging.DEBUG)
-    load_data()
+    if not url_dict_set.keys():
+        load_data()
+    else:
+        app.logger.debug("Keys: %s", url_dict_set.keys())

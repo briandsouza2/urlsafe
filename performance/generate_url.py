@@ -13,7 +13,7 @@ def f(n: int) -> str:
 
 ctr = 0
 buffer = []
-for count in repeat(None, 100000):
+for count in repeat(None, 500000):
     buffer.append(f(2048)+ "\n")
     ctr = ctr + 1
     if not ctr % 1000:

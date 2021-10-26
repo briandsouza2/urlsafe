@@ -14,13 +14,13 @@ def get_random_string(length):
 
 rand_str = get_random_string(2048)
 
-lines = open('../data/hostname2_80/urls.txt').read().splitlines()
+lines = open('../data/hostname1_443/urls.txt').read().splitlines()
 # read a random line from the test file
 
 def test_array():
     start_time = time.time()
     myline =random.choice(lines)
-    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/1/hostname2_80/{myline}").read()
+    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/1/hostname1_443/{myline}").read()
     print(contents)
     end_time = time.time()
     print("Array: took this long to run: {}".format(end_time-start_time))
@@ -28,7 +28,7 @@ def test_array():
 def test_set():
     start_time = time.time()
     #myline =random.choice(lines)
-    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/2/hostname2_443/{rand_str}").read()
+    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/2/hostname1_443/{rand_str}").read()
     end_time = time.time()
     print("Set: took this long to run: {}".format(end_time-start_time))
 
