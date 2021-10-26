@@ -20,19 +20,22 @@ lines = open('../src/teststrings.txt').read().splitlines()
 def test_array():
     start_time = time.time()
     #myline =random.choice(lines)
-    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/1/hostname:port/{rand_str}").read()
+    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/1/hostname2_80/{rand_str}").read()
     end_time = time.time()
     print("Array: took this long to run: {}".format(end_time-start_time))
     
 def test_set():
     start_time = time.time()
     #myline =random.choice(lines)
-    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/2/hostname:port/{rand_str}").read()
+    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/2/hostname2_443/{rand_str}").read()
     end_time = time.time()
     print("Set: took this long to run: {}".format(end_time-start_time))
 
-duration = timeit.timeit(test_array, number=10)
-print("Duration for Array: ", duration)
+# warm up the cache
+contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/1/hostname:port/{rand_str}").read()
 
 duration = timeit.timeit(test_set, number=10)
 print("Duration for Set: ", duration)
+
+duration = timeit.timeit(test_array, number=10)
+print("Duration for Array: ", duration)
