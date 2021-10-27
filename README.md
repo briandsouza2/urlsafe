@@ -38,6 +38,8 @@ https://github.com/pyenv/pyenv-virtualenv
     > pip install -r requirements-dev.txt
 2. Install urlsafe
     > pip install -e .
+2. Set developer mode
+    > export FLASK_ENV=development
 2. Start up the server
     > urlsafe
 
@@ -59,8 +61,22 @@ Note: The "original_path_and_query_string" must be URL encoded. A helper script 
         "Blocked": false
         }
 
+
+## Docker container
+1. Create test data for the container. This will create 4 random hosts with 10000 blocked URIs each. <br>
+    > python ./helpers/generate_url.py
+1. Build the docker image
+    > docker build -t flask/urlsafe .
+2. Start the container
+    > docker run -d -p 5000:5000 flask/urlsafe
+
 ## Testing
 1. To run the unittests <br>
     > make test
+1. To run performace tests <br>
+    > python helpers/perf_test.py
 
-## Docker container
+## Cleanup
+1. To clean up after docker
+    > docker rm -f $(docker ps -a -q)
+    > docker image prune
