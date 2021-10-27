@@ -1,0 +1,2 @@
+somepath?param1=1&param2=2
+somepath/someotherpath?param1=1&param2=2

@@ -82,7 +82,6 @@ def param_parse(hostname_and_port, varargs=None):
     #query_params_sorted = ''
     #for param_name in param_names:
     #    query_params_sorted = query_params_sorted + param_name + '=' + query_params[param_name]
-    #import pdb; pdb.set_trace()
     if hostname_and_port in url_dict_set.keys():
         if query_string in url_dict_set[hostname_and_port]:
             return jsonify({'Blocked': True, 'Match:': query_string})
