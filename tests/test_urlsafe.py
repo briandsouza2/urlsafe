@@ -21,7 +21,7 @@ class TestURLSafe(flask_unittest.ClientTestCase):
     app = create_app({'TESTING': True, 'DATADIR': './data'})
 
     def test_blocked_url(self, client):
-        """Start with a blank database."""
+        """Test basic blocked URL."""
         self.app.logger.setLevel(logging.DEBUG)
         with self.app.test_client() as client:
             init_app()
@@ -51,6 +51,6 @@ class TestURLSafe(flask_unittest.ClientTestCase):
             param = urllib.parse.quote(path_and_query_string, safe='')
             #import pdb; pdb.set_trace()
 
-            rv = client.get(f'/urlinfo/2/hostname1_port/{param}')
-        expected_response = {'Blocked': True, 'Match:': 'someotherpath/somemorepaths/evenmorepaths?param1=val1&param2=val2&param3=val3'}
+            rv = client.get(f'/urlinfo/1/hostname1_port/{param}')
+        expected_response = {'Blocked': True}
         self.assertEqual(json.loads(rv.data.decode('utf-8')), expected_response)

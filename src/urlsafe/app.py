@@ -57,18 +57,7 @@ def load_data_dict():
 
 url_dict_set=load_data_dict()
 
-@app.route("/urlinfo/1/<hostname_and_port>/<original_path_and_query_string>")
-def set_lookup(hostname_and_port, original_path_and_query_string):
-    # Use a set to determine if the URL is safe
-    #app.logger.debug("dict: %s", url_dict_set)
-    #app.logger.debug("query_string: %s", original_path_and_query_string)
-    #import pdb; pdb.set_trace()
-    if hostname_and_port in url_dict_set.keys():
-        if original_path_and_query_string in url_dict_set[hostname_and_port]:
-            return jsonify({'Blocked': True})
-    return jsonify({'Blocked': False})
-
-@app.route("/urlinfo/2/<hostname_and_port>/<path:varargs>")
+@app.route("/urlinfo/1/<hostname_and_port>/<path:varargs>")
 def param_parse(hostname_and_port, varargs=None):
     # Use a set to determine if the URL is safe
     # normalize the original_path_and query
@@ -84,7 +73,7 @@ def param_parse(hostname_and_port, varargs=None):
     #    query_params_sorted = query_params_sorted + param_name + '=' + query_params[param_name]
     if hostname_and_port in url_dict_set.keys():
         if query_string in url_dict_set[hostname_and_port]:
-            return jsonify({'Blocked': True, 'Match:': query_string})
+            return jsonify({'Blocked': True})
     return jsonify({'Blocked': False})
 
 def main():
