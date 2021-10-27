@@ -31,7 +31,6 @@ global url_dict_set
 # Original_path and query_string will not be analyzed:
 #   i.e. The following examples are assumed to be different:
 #        download_file?param1=1&param2=2 
-#        download_file?param2=2&param1=1 (parameters passed in different order)
 #        download_file?param1=1&param2=2&pawned=3 (extra parameters passed in)
 #   even though they will likely be poiting to the same resource
 #  
@@ -66,32 +65,19 @@ def param_parse(hostname_and_port, varargs=None):
     sorted_params = [f"{key}={query_params[key][0]}" for key in sorted(query_params)]
     query_params_sorted = "&".join(sorted_params)
     query_string = parts.path + "?" + query_params_sorted
-    #param_names = list(query_params.keys())
-    #param_names.sort()
-    #query_params_sorted = ''
-    #for param_name in param_names:
-    #    query_params_sorted = query_params_sorted + param_name + '=' + query_params[param_name]
+    query_string = query_string.lower()
+    
     if hostname_and_port in url_dict_set.keys():
         if query_string in url_dict_set[hostname_and_port]:
             return jsonify({'Blocked': True})
     return jsonify({'Blocked': False})
 
 def main():
-    #load_data()
-    #app.run(threaded=False, processes=1)
     app.logger.debug("In app::main")
     app.run(host="0.0.0.0")
 
 if __name__=="__main__":
     main()
-
-#if __name__=="urlsafe.app":
-#    app.logger.debug("In urlsafe.app")
-
-#     #gunicorn_error_logger = logging.getLogger('gunicorn.error')
-#     #app.logger.handlers.extend(gunicorn_error_logger.handlers)
-#     app.logger.setLevel(logging.DEBUG)
-#     load_data()
 
 def create_app(test_config=None):
 
