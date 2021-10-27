@@ -47,8 +47,10 @@ class TestURLSafe(flask_unittest.ClientTestCase):
         self.app.logger.setLevel(logging.DEBUG)
         with self.app.test_client() as client:
             init_app()
-            path_and_query_string="someotherpath;someparam?param2=val2&param1=val1&param3=val3#somefrag"
+            path_and_query_string="someotherpath/somemorepaths/evenmorepaths;someparam?param2=val2&param1=val1&param3=val3#somefrag"
             param = urllib.parse.quote(path_and_query_string, safe='')
+            #import pdb; pdb.set_trace()
+
             rv = client.get(f'/urlinfo/2/hostname1_port/{param}')
-        expected_response = {'Blocked': True, 'Match:': 'someotherpath?param1=val1&param2=val2&param3=val3'}
+        expected_response = {'Blocked': True, 'Match:': 'someotherpath/somemorepaths/evenmorepaths?param1=val1&param2=val2&param3=val3'}
         self.assertEqual(json.loads(rv.data.decode('utf-8')), expected_response)

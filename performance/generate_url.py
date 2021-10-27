@@ -16,14 +16,14 @@ ctr = 0
 buffer = []
 for count in repeat(None, 100000):
         # create a random path
-        path =  uuid.uuid4().hex + "/"
-        query_string = ""
+        path =  uuid.uuid4().hex + "?"
+        query_string = "param000=val000"
         for param_count in range(1,100):
-                query_string = f"{query_string}&param{param_count}={f(10)}"
+                query_string = f"{query_string}&param{param_count:03}={f(10)}"
         uri = path + query_string
         buffer.append(uri+"\n")
         ctr = ctr + 1
-        if not ctr % 1000:
+        if not ctr % 10000:
                 print(ctr)
 
 sizebuff = sys.getsizeof(buffer)

@@ -19,8 +19,10 @@ lines = open('../data/hostname1_443/urls.txt').read().splitlines()
 
 def test_set():
     start_time = time.time()
-    #myline =random.choice(lines)
-    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/1/hostname1_443/{rand_str}").read()
+    myline =random.choice(lines)
+    #import pdb; pdb.set_trace()
+    query = urllib.parse.quote(myline, safe='')
+    contents = urllib.request.urlopen(f"http://localhost:5000/urlinfo/2/hostname1_443/{query}").read()
     end_time = time.time()
     print("Set: took this long to run: {}".format(end_time-start_time))
 

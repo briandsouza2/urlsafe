@@ -68,11 +68,11 @@ def set_lookup(hostname_and_port, original_path_and_query_string):
             return jsonify({'Blocked': True})
     return jsonify({'Blocked': False})
 
-@app.route("/urlinfo/2/<hostname_and_port>/<original_path_and_query_string>")
-def param_parse(hostname_and_port, original_path_and_query_string):
+@app.route("/urlinfo/2/<hostname_and_port>/<path:varargs>")
+def param_parse(hostname_and_port, varargs=None):
     # Use a set to determine if the URL is safe
     # normalize the original_path_and query
-    parts=urlparse(original_path_and_query_string)
+    parts=urlparse(varargs)
     query_params=parse_qs(parts.query)
     sorted_params = [f"{key}={query_params[key][0]}" for key in sorted(query_params)]
     query_params_sorted = "&".join(sorted_params)
@@ -88,14 +88,14 @@ def param_parse(hostname_and_port, original_path_and_query_string):
             return jsonify({'Blocked': True, 'Match:': query_string})
     return jsonify({'Blocked': False})
 
-# def main():
-#     #load_data()
-#     #app.run(threaded=False, processes=1)
-#     app.logger.debug("In app::main")
-#     app.run(host="0.0.0.0")
+def main():
+    #load_data()
+    #app.run(threaded=False, processes=1)
+    app.logger.debug("In app::main")
+    app.run(host="0.0.0.0")
 
-# if __name__=="__main__":
-#     main()
+if __name__=="__main__":
+    main()
 
 #if __name__=="urlsafe.app":
 #    app.logger.debug("In urlsafe.app")
